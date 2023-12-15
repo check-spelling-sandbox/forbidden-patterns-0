@@ -21,6 +21,8 @@ other-wise would you do something else rather then this?
 
 This is less then that.
 
+0xaabbcc 0uDEADBEEF \uDEADBEEF
+
 One ore more times.
 
 Regardless if you try using a non existing file or a not-existent one, things won't work well.
