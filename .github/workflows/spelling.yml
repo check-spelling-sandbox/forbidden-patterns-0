@@ -92,7 +92,7 @@ jobs:
     steps:
     - name: check-spelling
       id: spelling
-      uses: check-spelling/check-spelling@prerelease
+      uses: jsoref/check-spelling@prerelease
       with:
         suppress_push_for_open_pull_request: ${{ github.actor != 'dependabot[bot]' && 1 }}
         checkout: true
@@ -107,40 +107,6 @@ jobs:
         extra_dictionary_limit: 20
         extra_dictionaries:
           cspell:software-terms/dict/softwareTerms.txt
-
-  comment-push:
-    name: Report (Push)
-    # If your workflow isn't running on push, you can remove this job
-    runs-on: ubuntu-latest
-    needs: spelling
-    permissions:
-      contents: write
-    if: (success() || failure()) && needs.spelling.outputs.followup && github.event_name == 'push'
-    steps:
-    - name: comment
-      uses: check-spelling/check-spelling@prerelease
-      with:
-        checkout: true
-        spell_check_this: check-spelling/spell-check-this@prerelease
-        task: ${{ needs.spelling.outputs.followup }}
-
-  comment-pr:
-    name: Report (PR)
-    # If you workflow isn't running on pull_request*, you can remove this job
-    runs-on: ubuntu-latest
-    needs: spelling
-    permissions:
-      contents: read
-      pull-requests: write
-    if: (success() || failure()) && needs.spelling.outputs.followup && contains(github.event_name, 'pull_request')
-    steps:
-    - name: comment
-      uses: check-spelling/check-spelling@prerelease
-      with:
-        checkout: true
-        spell_check_this: check-spelling/spell-check-this@prerelease
-        task: ${{ needs.spelling.outputs.followup }}
-        experimental_apply_changes_via_bot: 1
 
   update:
     name: Update PR
